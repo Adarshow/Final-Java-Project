@@ -1,0 +1,60 @@
+<th:block th:fragment="title">Appointments</th:block>
+
+<div th:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Appointments</h2>
+        <a href="/appointments/new" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i>New Appointment
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Date & Time</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="appointment : ${appointments}">
+                            <td th:text="${appointment.id}">1</td>
+                            <td th:text="${appointment.patient.name}">John Doe</td>
+                            <td th:text="${appointment.doctor.name}">Dr. Smith</td>
+                            <td th:text="${#temporals.format(appointment.dateTime, 'dd-MM-yyyy HH:mm')}">01-01-2023 10:00</td>
+                            <td>
+                                <span th:class="${'badge ' + (appointment.status == T(com.healthcare.entity.Appointment.AppointmentStatus).SCHEDULED ? 'bg-warning' : 
+                                                             appointment.status == T(com.healthcare.entity.Appointment.AppointmentStatus).COMPLETED ? 'bg-success' : 
+                                                             appointment.status == T(com.healthcare.entity.Appointment.AppointmentStatus).CANCELLED ? 'bg-danger' : 'bg-primary')}"
+                                      th:text="${appointment.status}">Status</span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a th:href="@{/appointments/{id}(id=${appointment.id})}" class="btn btn-info">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a th:href="@{/appointments/{id}/edit(id=${appointment.id})}" class="btn btn-warning">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a th:href="@{/appointments/{id}/cancel(id=${appointment.id})}" class="btn btn-danger"
+                                       onclick="return confirm('Are you sure you want to cancel this appointment?')">
+                                        <i class="bi bi-x-circle"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(appointments)}">
+                            <td colspan="6" class="text-center">No appointments found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

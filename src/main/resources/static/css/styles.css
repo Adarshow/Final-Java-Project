@@ -1,0 +1,107 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+.card {
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+/* Dashboard Styles */
+.dashboard-stats .card {
+    transition: transform 0.3s;
+}
+
+.dashboard-stats .card:hover {
+    transform: translateY(-5px);
+}
+
+.dashboard-stats .card-body i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #0d6efd;
+}
+
+/* Form Styles */
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Table Styles */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+/* Print Styles */
+@media print {
+    .no-print {
+        display: none;
+    }
+    
+    .print-only {
+        display: block;
+    }
+    
+    body {
+        padding: 20px;
+        font-size: 14px;
+    }
+}
+
+/* Prescription and Billing Print Styles */
+.prescription-header, .billing-header {
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.prescription-footer, .billing-footer {
+    border-top: 1px solid #dee2e6;
+    padding-top: 10px;
+    margin-top: 20px;
+}
+
+.prescription-body, .billing-body {
+    min-height: 300px;
+}
+
+.signature {
+    margin-top: 50px;
+    border-top: 1px solid #dee2e6;
+    width: 200px;
+    text-align: center;
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <title th:fragment="title" th:text="${invoice.id != null ? 'Edit Invoice' : 'New Invoice'}">Invoice Form</title>
+</head>
+<body>
+<div th:fragment="content" layout:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 th:text="${invoice.id != null ? 'Edit Invoice' : 'New Invoice'}">Invoice Form</h2>
+        <a href="/billing" class="btn btn-secondary">
+            <i class="bi bi-arrow-left me-2"></i>Back to List
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <form th:action="@{/billing/save}" th:object="${invoice}" method="post">
+                <input type="hidden" th:field="*{id}" />
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="patient" class="form-label">Patient</label>
+                        <select class="form-select" id="patient" th:field="*{patient}" required>
+                            <option value="">Select Patient</option>
+                            <option th:each="patient : ${patients}" th:value="${patient.id}" th:text="${patient.name}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" class="form-control" id="date" th:field="*{date}" required>
+                    </div>
+                </div>
+                
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5 class="mb-0">Invoice Items</h5>
+                    </div>
+                    <div class="card-body">
+                        <div id="items-container">
+                            <div class="item-row row mb-3" th:each="item, stat : *{items}">
+                                <input type="hidden" th:field="*{items[__${stat.index}__].id}" />
+                                
+                                <div class="col-md-5">
+                                    <label th:for="${'items[' + stat.index + '].description'}" class="form-label">Description</label>
+                                    <input type="text" class="form-control" th:field="*{items[__${stat.index}__].description}" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label th:for="${'items[' + stat.index + '].quantity'}" class="form-label">Quantity</label>
+                                    <input type="number" class="form-control item-quantity" th:field="*{items[__${stat.index}__].quantity}" min="1" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label th:for="${'items[' + stat.index + '].unitPrice'}" class="form-label">Unit Price</label>
+                                    <input type="number" class="form-control item-price" th:field="*{items[__${stat.index}__].unitPrice}" step="0.01" min="0" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="form-label">Amount</label>
+                                    <input type="text" class="form-control item-amount" th:value="${item.quantity * item.unitPrice}" readonly>
+                                </div>
+                                <div class="col-md-1 d-flex align-items-end">
+                                    <button type="button" class="btn btn-danger remove-item mb-2">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" id="add-item" class="btn btn-secondary mt-2">
+                            <i class="bi bi-plus-circle me-2"></i>Add Item
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" th:field="*{status}">
+                            <option value="PENDING">Pending</option>
+                            <option value="PAID">Paid</option>
+                            <option value="CANCELLED">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="totalAmount" class="form-label">Total Amount</label>
+                        <input type="number" class="form-control" id="totalAmount" th:field="*{totalAmount}" step="0.01" min="0" readonly>
+                    </div>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <label for="notes" class="form-label">Notes</label>
+                        <textarea class="form-control" id="notes" th:field="*{notes}" rows="3"></textarea>
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <button type="reset" class="btn btn-secondary me-md-2">Reset</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+<th:block th:fragment="scripts">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('items-container');
+            const addButton = document.getElementById('add-item');
+            const totalAmountInput = document.getElementById('totalAmount');
+            let itemCount = container.querySelectorAll('.item-row').length;
+            
+            // Calculate total
+            function calculateTotal() {
+                let total = 0;
+                const amounts = container.querySelectorAll('.item-amount');
+                amounts.forEach(function(input) {
+                    total += parseFloat(input.value || 0);
+                });
+                totalAmountInput.value = total.toFixed(2);
+            }
+            
+            // Calculate item amount
+            function calculateItemAmount(row) {
+                const quantity = parseFloat(row.querySelector('.item-quantity').value || 0);
+                const price = parseFloat(row.querySelector('.item-price').value || 0);
+                const amount = quantity * price;
+                row.querySelector('.item-amount').value = amount.toFixed(2);
+                calculateTotal();
+            }
+            
+            // Add event listeners to existing rows
+            container.querySelectorAll('.item-row').forEach(function(row) {
+                const quantityInput = row.querySelector('.item-quantity');
+                const priceInput = row.querySelector('.item-price');
+                
+                quantityInput.addEventListener('input', function() {
+                    calculateItemAmount(row);
+                });
+                
+                priceInput.addEventListener('input', function() {
+                    calculateItemAmount(row);
+                });
+            });
+            
+            // Calculate initial total
+            calculateTotal();
+            
+            // Add new item row
+            addButton.addEventListener('click', function() {
+                const newRow = document.createElement('div');
+                newRow.className = 'item-row row mb-3';
+                newRow.innerHTML = `
+                    <input type="hidden" name="items[${itemCount}].id" value="" />
+                    
+                    <div class="col-md-5">
+                        <label for="items[${itemCount}].description" class="form-label">Description</label>
+                        <input type="text" class="form-control" name="items[${itemCount}].description" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="items[${itemCount}].quantity" class="form-label">Quantity</label>
+                        <input type="number" class="form-control item-quantity" name="items[${itemCount}].quantity" min="1" value="1" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label for="items[${itemCount}].unitPrice" class="form-label">Unit Price</label>
+                        <input type="number" class="form-control item-price" name="items[${itemCount}].unitPrice" step="0.01" min="0" value="0.00" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Amount</label>
+                        <input type="text" class="form-control item-amount" value="0.00" readonly>
+                    </div>
+                    <div class="col-md-1 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger remove-item mb-2">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(newRow);
+                itemCount++;
+                
+                // Add event listeners to the new row
+                const row = newRow;
+                const quantityInput = row.querySelector('.item-quantity');
+                const priceInput = row.querySelector('.item-price');
+                
+                quantityInput.addEventListener('input', function() {
+                    calculateItemAmount(row);
+                });
+                
+                priceInput.addEventListener('input', function() {
+                    calculateItemAmount(row);
+                });
+                
+                // Add event listener to the new remove button
+                const removeButton = row.querySelector('.remove-item');
+                removeButton.addEventListener('click', function() {
+                    container.removeChild(row);
+                    calculateTotal();
+                });
+                
+                calculateItemAmount(row);
+            });
+            
+            // Remove item row (for existing buttons)
+            container.addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-item') || e.target.parentElement.classList.contains('remove-item')) {
+                    const button = e.target.classList.contains('remove-item') ? e.target : e.target.parentElement;
+                    const row = button.closest('.item-row');
+                    container.removeChild(row);
+                    calculateTotal();
+                }
+            });
+        });
+    </script>
+</th:block>

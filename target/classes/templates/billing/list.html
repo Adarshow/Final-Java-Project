@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <title th:fragment="title">Billing</title>
+</head>
+<body>
+<div th:fragment="content" layout:fragment="content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Billing</h2>
+        <a href="/billing/new" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2"></i>New Invoice
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Patient</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="invoice : ${invoices}">
+                            <td th:text="${invoice.id}">INV-001</td>
+                            <td th:text="${invoice.patient.name}">John Doe</td>
+                            <td th:text="${#temporals.format(invoice.date, 'dd-MM-yyyy')}">01-01-2023</td>
+                            <td th:text="${'$' + invoice.totalAmount}">$150.00</td>
+                            <td>
+                                <span th:class="${'badge ' + (invoice.status == 'PAID' ? 'bg-success' : invoice.status == 'PENDING' ? 'bg-warning' : 'bg-danger')}"
+                                      th:text="${invoice.status}">Status</span>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a th:href="@{/billing/{id}(id=${invoice.id})}" class="btn btn-info">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a th:href="@{/billing/{id}/edit(id=${invoice.id})}" class="btn btn-warning">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a th:href="@{/billing/{id}/print(id=${invoice.id})}" class="btn btn-secondary" target="_blank">
+                                        <i class="bi bi-printer"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(invoices)}">
+                            <td colspan="6" class="text-center">No invoices found</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

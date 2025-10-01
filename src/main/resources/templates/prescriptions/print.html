@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Prescription Print</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .prescription-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .prescription-details {
+            margin-bottom: 30px;
+        }
+        .prescription-footer {
+            margin-top: 50px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="no-print mb-3">
+            <button class="btn btn-primary" onclick="window.print()">Print Prescription</button>
+            <a th:href="@{/prescriptions}" class="btn btn-secondary">Back to List</a>
+        </div>
+        
+        <div class="prescription-header">
+            <h2>Medical Prescription</h2>
+            <h4>Healthcare System</h4>
+        </div>
+        
+        <div class="prescription-details">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Prescription ID:</strong> <span th:text="${prescription.id}"></span></p>
+                    <p><strong>Date:</strong> <span th:text="${#temporals.format(prescription.createdAt, 'dd-MM-yyyy')}"></span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Patient:</strong> <span th:text="${prescription.patient.name}"></span></p>
+                    <p><strong>Doctor:</strong> <span th:text="${prescription.doctor.name}"></span> (<span th:text="${prescription.doctor.specialization}"></span>)</p>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <h5>Medication Details:</h5>
+                <div class="card">
+                    <div class="card-body">
+                        <p><strong>Medicine:</strong> <span th:text="${prescription.medicine.name}"></span></p>
+                        <p><strong>Dosage:</strong> <span th:text="${prescription.dosage}"></span></p>
+                        <p><strong>Notes:</strong> <span th:text="${prescription.notes}"></span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="prescription-footer">
+            <div class="row">
+                <div class="col-md-8">
+                    <p>This prescription is valid for 30 days from the date of issue.</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <p>Doctor's Signature</p>
+                    <p>_____________________</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

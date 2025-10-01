@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare Administration System</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(to right, rgba(0, 90, 255, 0.85), rgba(0, 180, 250, 0.85)), 
+                        url('/img/hospital.jpg') no-repeat center center/cover;
+            color: white;
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+        }
+        .hero-section h1 {
+            font-weight: 800;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: fadeInDown 1.2s ease-in-out;
+        }
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            animation: fadeInUp 1.2s ease-in-out;
+        }
+        .btn-custom {
+            padding: 12px 28px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            transition: 0.3s;
+        }
+        .btn-custom:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Features Section */
+        .feature-box {
+            padding: 35px;
+            border-radius: 15px;
+            background: white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            height: 100%;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+        }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        .feature-box h4 {
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: #333;
+            text-transform: uppercase;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #bbb;
+        }
+        footer p {
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {opacity: 0; transform: translateY(-30px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+        @keyframes fadeInUp {
+            from {opacity: 0; transform: translateY(30px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1>Healthcare Administration System</h1>
+            <p>A comprehensive solution to manage healthcare facilities efficiently</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/login" class="btn btn-light btn-custom shadow-sm">Login</a>
+                <a href="/signup" class="btn btn-success btn-custom shadow-sm">Sign Up</a>
+                <a href="/dashboard" class="btn btn-outline-light btn-custom">Dashboard</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <h2 class="text-center section-title">Key Features</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class="bi bi-people"></i></div>
+                        <h4>Patient Management</h4>
+                        <p>Efficiently manage patient records, medical history, and appointments in one place.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class="bi bi-calendar-check"></i></div>
+                        <h4>Appointment Scheduling</h4>
+                        <p>Streamline appointment booking, rescheduling, and cancellations with ease.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class="bi bi-cash-coin"></i></div>
+                        <h4>Billing Management</h4>
+                        <p>Handle patient billing, insurance claims, and payment tracking efficiently.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class="bi bi-capsule"></i></div>
+                        <h4>Pharmacy Integration</h4>
+                        <p>Manage medicine inventory, prescriptions, and dispensing in a unified system.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class="bi bi-person-badge"></i></div>
+                        <h4>Doctor & Staff Management</h4>
+                        <p>Organize doctor schedules, specializations, and staff roles effectively.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box">
+                        <div class="feature-icon"><i class="bi bi-shield-lock"></i></div>
+                        <h4>Secure & Compliant</h4>
+                        <p>Role-based access control and data protection ensure security and compliance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="py-4">
+        <div class="container text-center">
+            <p>© 2025 Healthcare Administration System. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
