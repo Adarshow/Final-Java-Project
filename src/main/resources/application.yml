@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ${MYSQL_URL}
+    url: jdbc:mysql://${MYSQLHOST}:${MYSQLPORT}/${MYSQLDATABASE}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: root
-    password: ${MYSQL_PASSWORD}
+    password: ${MYSQLPASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -17,7 +17,7 @@ spring:
     cache: false
 
 server:
-  port: ${MYSQL_PORT}
+  port: ${MYSQLPORT}
   error:
     whitelabel:
       enabled: false
