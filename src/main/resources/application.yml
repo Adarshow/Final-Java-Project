@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/healthcare_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    url: ${{ MySQL.MYSQL_URL }}
     username: root
-    password: 9446440812@Ad
+    password: ${{MySQL.MYSQLPASSWORD}}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -17,7 +17,7 @@ spring:
     cache: false
 
 server:
-  port: 8080
+  port: ${{MySQL.MYSQLPORT}}
   error:
     whitelabel:
       enabled: false
