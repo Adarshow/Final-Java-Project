@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:fragment="layout">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -118,12 +118,22 @@
                     <a href="/prescriptions" class="list-group-item" th:classappend="${#httpServletRequest.requestURI.startsWith('/prescriptions') ? 'active' : ''}">
                         <i class="bi bi-file-earmark-text"></i> Prescriptions
                     </a>
-                    <a href="/staff" class="list-group-item" sec:authorize="hasRole('ADMIN')" th:classappend="${#httpServletRequest.requestURI.startsWith('/staff') ? 'active' : ''}">
-                        <i class="bi bi-person-workspace"></i> Staff
-                    </a>
-                    <a href="/users" class="list-group-item" sec:authorize="hasRole('ADMIN')" th:classappend="${#httpServletRequest.requestURI.startsWith('/users') ? 'active' : ''}">
-                        <i class="bi bi-person-lock"></i> Users
-                    </a>
+                    
+                    <!-- Admin Section -->
+                    <div sec:authorize="hasRole('ADMIN')" class="mt-3">
+                        <div class="px-3 py-2">
+                            <small class="text-muted fw-bold">ADMIN PANEL</small>
+                        </div>
+                        <a href="/admin/profile" class="list-group-item" th:classappend="${#httpServletRequest.requestURI.startsWith('/admin/profile') ? 'active' : ''}">
+                            <i class="bi bi-person-gear"></i> Admin Profile
+                        </a>
+                        <a href="/admin/users" class="list-group-item" th:classappend="${#httpServletRequest.requestURI.startsWith('/admin/users') ? 'active' : ''}">
+                            <i class="bi bi-people-fill"></i> User Management
+                        </a>
+                        <a href="/staff" class="list-group-item" th:classappend="${#httpServletRequest.requestURI.startsWith('/staff') ? 'active' : ''}">
+                            <i class="bi bi-person-workspace"></i> Staff
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -142,19 +152,8 @@
                 </div>
 
                 <!-- Page Content -->
-                <div th:switch="${contentTemplate}">
-                    <div th:case="'dashboard'" th:include="dashboard"></div>
-                    <div th:case="'appointments/list'" th:include="appointments/list"></div>
-                    <div th:case="'appointments/form'" th:include="appointments/form"></div>
-                    <div th:case="'patients/list'" th:include="patients/list"></div>
-                    <div th:case="'patients/form'" th:include="patients/form"></div>
-                    <div th:case="'doctors/list'" th:include="doctors/list"></div>
-                    <div th:case="'doctors/form'" th:include="doctors/form"></div>
-                    <div th:case="'prescriptions/list'" th:include="prescriptions/list"></div>
-                    <div th:case="'prescriptions/form'" th:include="prescriptions/form"></div>
-                    <div th:case="'billing/list'" th:include="billing/list"></div>
-                    <div th:case="'billing/form'" th:include="billing/form"></div>
-                    <div th:case="*">Content not found</div>
+                <div th:replace="${content}">
+                    <!-- Content will be replaced by individual templates -->
                 </div>
             </div>
         </div>
