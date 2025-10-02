@@ -4,20 +4,23 @@ spring:
     username: root
     password: 9446440812@Ad
     driver-class-name: com.mysql.cj.jdbc.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
+
   thymeleaf:
     cache: false
-    
+
 server:
   port: 8080
   error:
+    whitelabel:
+      enabled: false
     include-message: always
     include-binding-errors: always
 

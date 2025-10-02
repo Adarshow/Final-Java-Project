@@ -1,7 +1,6 @@
 package com.healthcare.controller;
 
 import com.healthcare.entity.Prescription;
-import com.healthcare.entity.Medication;
 import com.healthcare.service.DoctorService;
 import com.healthcare.service.PatientService;
 import com.healthcare.service.PrescriptionService;

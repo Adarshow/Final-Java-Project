@@ -15,11 +15,17 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    public SecurityConfig(CustomAccessDeniedHandler customAccessDeniedHandler) {
+        this.customAccessDeniedHandler = customAccessDeniedHandler;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/", "/login", "/register", "/css/**", "/js/**", "/webjars/**", "/images/**").permitAll()
+                .requestMatchers("/", "/login", "/signup", "/css/**", "/js/**", "/webjars/**", "/images/**", "/error/**").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/doctors/**").hasAnyRole("ADMIN", "DOCTOR")
                 .requestMatchers("/patients/**").hasAnyRole("ADMIN", "DOCTOR", "STAFF")
@@ -38,6 +44,9 @@ public class SecurityConfig {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
+            )
+            .exceptionHandling(exceptions -> exceptions
+                .accessDeniedHandler(customAccessDeniedHandler)
             );
         
         return http.build();

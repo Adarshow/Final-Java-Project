@@ -1,7 +1,6 @@
 package com.healthcare.controller;
 
 import com.healthcare.entity.Billing;
-import com.healthcare.entity.BillingItem;
 import com.healthcare.service.BillingService;
 import com.healthcare.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;

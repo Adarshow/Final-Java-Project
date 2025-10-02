@@ -3,157 +3,656 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healthcare Administration System</title>
+    <title>MediCare Pro - Advanced Healthcare Management System</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <style>
+        :root {
+            --primary-color: #0d6efd;
+            --primary-dark: #0b5ed7;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f8fafc;
+            --white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.6rem;
+            color: var(--primary-color) !important;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-dark) !important;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem !important;
+            border-radius: 8px;
+            margin: 0 0.2rem;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+            background: rgba(13, 110, 253, 0.1);
+        }
+
+        .btn-nav {
+            font-weight: 600;
+            padding: 0.6rem 1.5rem !important;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+        }
+
+        .btn-nav-outline {
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color) !important;
+            background: transparent;
+        }
+
+        .btn-nav-outline:hover {
+            background: var(--primary-color);
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+        }
+
+        .btn-nav-primary {
+            background: var(--primary-color);
+            color: white !important;
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-nav-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4);
+        }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0.25rem 0.5rem;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
         /* Hero Section */
         .hero-section {
-            background: linear-gradient(to right, rgba(0, 90, 255, 0.85), rgba(0, 180, 250, 0.85)), 
-                        url('/img/hospital.jpg') no-repeat center center/cover;
-            color: white;
-            padding: 120px 0;
-            text-align: center;
+            background: linear-gradient(135deg, 
+                #0d6efd 0%, 
+                #0b5ed7 50%, 
+                #0a58ca 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
             position: relative;
+            overflow: hidden;
         }
-        .hero-section h1 {
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Poppins', sans-serif;
             font-weight: 800;
-            font-size: 3rem;
-            margin-bottom: 20px;
-            animation: fadeInDown 1.2s ease-in-out;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .hero-section p {
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-            animation: fadeInUp 1.2s ease-in-out;
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            max-width: 600px;
         }
-        .btn-custom {
-            padding: 12px 28px;
+
+        .btn-hero {
+            padding: 15px 35px;
             font-size: 1.1rem;
+            font-weight: 600;
             border-radius: 50px;
-            transition: 0.3s;
+            border: none;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
         }
-        .btn-custom:hover {
+
+        .btn-hero-primary {
+            background: var(--white);
+            color: var(--primary-color);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .btn-hero-primary:hover {
             transform: translateY(-3px);
+            box-shadow: var(--shadow-xl);
+            color: var(--primary-dark);
+        }
+
+        .btn-hero-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-hero-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--white);
+            transform: translateY(-3px);
+            color: var(--white);
+        }
+
+        /* Floating Elements */
+        .floating-element {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 60%; right: 15%; animation-delay: 2s; }
+        .floating-element:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
         }
 
         /* Features Section */
-        .feature-box {
-            padding: 35px;
-            border-radius: 15px;
-            background: white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            height: 100%;
-            text-align: center;
-            transition: all 0.4s ease;
-        }
-        .feature-box:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-        }
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: #007bff;
-        }
-        .feature-box h4 {
-            font-weight: 700;
-            margin-bottom: 15px;
+        .features-section {
+            padding: 120px 0;
+            background: var(--bg-light);
+            position: relative;
         }
 
-        /* Section Title */
         .section-title {
-            font-size: 2rem;
+            font-family: 'Poppins', sans-serif;
             font-weight: 700;
-            margin-bottom: 50px;
-            color: #333;
-            text-transform: uppercase;
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .feature-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            height: 100%;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .feature-icon.primary { background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); color: white; }
+        .feature-icon.secondary { background: linear-gradient(135deg, var(--secondary-color), #059669); color: white; }
+        .feature-icon.accent { background: linear-gradient(135deg, var(--accent-color), #d97706); color: white; }
+
+        .feature-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .feature-description {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 800;
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: var(--white);
+            text-align: center;
+        }
+
+        .cta-title {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .cta-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Footer */
-        footer {
-            background: #1a1a1a;
-            color: #bbb;
-        }
-        footer p {
-            margin: 0;
-            font-size: 0.95rem;
+        .footer {
+            background: linear-gradient(135deg, #1f2937, #111827);
+            color: white;
+            padding: 60px 0 30px;
         }
 
-        /* Animations */
-        @keyframes fadeInDown {
-            from {opacity: 0; transform: translateY(-30px);}
-            to {opacity: 1; transform: translateY(0);}
+        .footer-content {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 2rem;
+            margin-bottom: 2rem;
         }
-        @keyframes fadeInUp {
-            from {opacity: 0; transform: translateY(30px);}
-            to {opacity: 1; transform: translateY(0);}
+
+        .footer-brand {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            margin-right: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 120px 0 80px;
+            }
+            
+            .btn-hero {
+                padding: 12px 25px;
+                font-size: 1rem;
+                margin: 0.5rem;
+            }
+            
+            .features-section {
+                padding: 80px 0;
+            }
+            
+            .feature-card {
+                margin-bottom: 2rem;
+            }
+
+            .navbar {
+                padding: 0.8rem 0;
+            }
+
+            .navbar-brand {
+                font-size: 1.4rem;
+            }
+
+            .btn-nav {
+                margin: 0.3rem 0;
+                width: 100%;
+                text-align: center;
+            }
+
+            .navbar-nav {
+                padding: 1rem 0;
+            }
+
+            .nav-item {
+                margin: 0.2rem 0;
+            }
+        }
+
+        /* Scroll Animations */
+        [data-aos] {
+            pointer-events: none;
+        }
+        
+        [data-aos].aos-animate {
+            pointer-events: auto;
         }
     </style>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-heart-pulse me-2"></i>MediCare Pro
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="bi bi-list" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-nav btn-nav-outline" href="/signup">
+                            <i class="bi bi-person-plus me-1"></i>Sign Up
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn-nav btn-nav-primary" href="/dashboard">
+                            <i class="bi bi-rocket-takeoff me-1"></i>Get Started
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
-            <h1>Healthcare Administration System</h1>
-            <p>A comprehensive solution to manage healthcare facilities efficiently</p>
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="/login" class="btn btn-light btn-custom shadow-sm">Login</a>
-                <a href="/signup" class="btn btn-success btn-custom shadow-sm">Sign Up</a>
-                <a href="/dashboard" class="btn btn-outline-light btn-custom">Dashboard</a>
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-content">
+                    <h1 class="hero-title" data-aos="fade-up" data-aos-duration="1000">
+                        Professional Healthcare Management
+                    </h1>
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
+                        Streamline your healthcare operations with MediCare Pro - the comprehensive management system trusted by medical professionals worldwide.
+                    </p>
+                    <div class="d-flex flex-wrap justify-content-start gap-3" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1000">
+                        <a href="/login" class="btn-hero btn-hero-primary">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Access System
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="600" data-aos-duration="1000">
+                    <div class="text-center">
+                        <div class="hero-visual">
+                            <i class="bi bi-heart-pulse" style="font-size: 6rem; color: rgba(255,255,255,0.9);"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="100">
+                        <span class="stat-number">10K+</span>
+                        <div class="stat-label">Patients Managed</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="200">
+                        <span class="stat-number">500+</span>
+                        <div class="stat-label">Healthcare Providers</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="300">
+                        <span class="stat-number">99%</span>
+                        <div class="stat-label">System Uptime</div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6">
+                    <div class="stat-item" data-aos="fade-up" data-aos-delay="400">
+                        <span class="stat-number">24/</span>
+                        <div class="stat-label">Support Available</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
     
     <!-- Features Section -->
-    <section class="py-5 bg-light">
+    <section class="features-section" id="features">
         <div class="container">
-            <h2 class="text-center section-title">Key Features</h2>
+            <div class="text-center mb-5">
+                <h2 class="section-title" data-aos="fade-up">Powerful Features</h2>
+                <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">
+                    Discover the comprehensive tools that make healthcare management effortless and efficient
+                </p>
+            </div>
+            
             <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="feature-box">
-                        <div class="feature-icon"><i class="bi bi-people"></i></div>
-                        <h4>Patient Management</h4>
-                        <p>Efficiently manage patient records, medical history, and appointments in one place.</p>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon primary">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <h3 class="feature-title">Patient Management</h3>
+                        <p class="feature-description">
+                            Comprehensive patient records, medical history tracking, and seamless appointment scheduling all in one unified platform.
+                        </p>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="feature-box">
-                        <div class="feature-icon"><i class="bi bi-calendar-check"></i></div>
-                        <h4>Appointment Scheduling</h4>
-                        <p>Streamline appointment booking, rescheduling, and cancellations with ease.</p>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon secondary">
+                            <i class="bi bi-calendar-check-fill"></i>
+                        </div>
+                        <h3 class="feature-title">Smart Scheduling</h3>
+                        <p class="feature-description">
+                            Intelligent appointment booking system with automated reminders, conflict detection, and real-time availability updates.
+                        </p>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="feature-box">
-                        <div class="feature-icon"><i class="bi bi-cash-coin"></i></div>
-                        <h4>Billing Management</h4>
-                        <p>Handle patient billing, insurance claims, and payment tracking efficiently.</p>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="feature-icon accent">
+                            <i class="bi bi-credit-card-fill"></i>
+                        </div>
+                        <h3 class="feature-title">Billing & Payments</h3>
+                        <p class="feature-description">
+                            Streamlined billing processes, insurance claim management, and secure payment processing with detailed financial reporting.
+                        </p>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="feature-box">
-                        <div class="feature-icon"><i class="bi bi-capsule"></i></div>
-                        <h4>Pharmacy Integration</h4>
-                        <p>Manage medicine inventory, prescriptions, and dispensing in a unified system.</p>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="feature-icon primary">
+                            <i class="bi bi-capsule"></i>
+                        </div>
+                        <h3 class="feature-title">Pharmacy Integration</h3>
+                        <p class="feature-description">
+                            Complete pharmacy management with inventory tracking, prescription handling, and automated stock alerts.
+                        </p>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="feature-box">
-                        <div class="feature-icon"><i class="bi bi-person-badge"></i></div>
-                        <h4>Doctor & Staff Management</h4>
-                        <p>Organize doctor schedules, specializations, and staff roles effectively.</p>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="500">
+                        <div class="feature-icon secondary">
+                            <i class="bi bi-person-badge-fill"></i>
+                        </div>
+                        <h3 class="feature-title">Staff Management</h3>
+                        <p class="feature-description">
+                            Efficient doctor and staff scheduling, role-based access control, and performance tracking for optimal workflow.
+                        </p>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="feature-box">
-                        <div class="feature-icon"><i class="bi bi-shield-lock"></i></div>
-                        <h4>Secure & Compliant</h4>
-                        <p>Role-based access control and data protection ensure security and compliance.</p>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card" data-aos="fade-up" data-aos-delay="600">
+                        <div class="feature-icon accent">
+                            <i class="bi bi-shield-lock-fill"></i>
+                        </div>
+                        <h3 class="feature-title">Security & Compliance</h3>
+                        <p class="feature-description">
+                            HIPAA-compliant security measures, encrypted data storage, and comprehensive audit trails for complete peace of mind.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="about">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="cta-title" data-aos="fade-up">Ready to Transform Your Healthcare Management?</h2>
+                    <p class="cta-subtitle" data-aos="fade-up" data-aos-delay="100">
+                        Join thousands of healthcare providers who trust MediCare Pro for their daily operations.
+                    </p>
+                    <div class="d-flex flex-wrap justify-content-center gap-3" data-aos="fade-up" data-aos-delay="200">
+                        <a href="/login" class="btn-hero btn-hero-primary">
+                            <i class="bi bi-rocket-takeoff me-2"></i>Get Started Now
+                        </a>
                     </div>
                 </div>
             </div>
@@ -161,12 +660,140 @@
     </section>
     
     <!-- Footer -->
-    <footer class="py-4">
-        <div class="container text-center">
-            <p>© 2025 Healthcare Administration System. All rights reserved.</p>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="row">
+                    <div class="col-lg-4 mb-4">
+                        <div class="footer-brand">
+                            <i class="bi bi-heart-pulse me-2"></i>MediCare Pro
+                        </div>
+                        <p class="footer-description">
+                            Empowering healthcare providers with cutting-edge management solutions for better patient care and operational efficiency.
+                        </p>
+                        <div class="social-links">
+                            <a href="#"><i class="bi bi-facebook"></i></a>
+                            <a href="#"><i class="bi bi-twitter"></i></a>
+                            <a href="https://www.linkedin.com/in/adarshpanakkattu" target="_blank"><i class="bi bi-linkedin"></i></a>
+                            <a href="https://www.instagram.com/adarsh.p__/" target="_blank"><i class="bi bi-instagram"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h5 class="mb-3">Product</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Features</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Pricing</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Security</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Updates</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h5 class="mb-3">Support</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Help Center</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Contact Us</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Training</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Documentation</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h5 class="mb-3">Company</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">About Us</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Careers</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Blog</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Press</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-2 col-md-6 mb-4">
+                        <h5 class="mb-3">Legal</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Privacy Policy</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Terms of Service</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">HIPAA Compliance</a></li>
+                            <li><a href="#" class="text-decoration-none" style="color: rgba(255,255,255,0.7);">Cookie Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Designed with ❤️ for Healthcare Professionals by Adarsh</p>
+            </div>
         </div>
     </footer>
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
+                navbar.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Counter animation for stats
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-number');
+            counters.forEach(counter => {
+                const target = counter.textContent;
+                const numericTarget = parseInt(target.replace(/[^\d]/g, ''));
+                const suffix = target.replace(/[\d]/g, '');
+                let current = 0;
+                const increment = numericTarget / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= numericTarget) {
+                        counter.textContent = numericTarget + suffix;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current) + suffix;
+                    }
+                }, 20);
+            });
+        }
+
+        // Trigger counter animation when stats section is visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+    </script>
 </body>
 </html>

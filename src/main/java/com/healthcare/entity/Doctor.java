@@ -8,9 +8,6 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.healthcare.entity.Appointment;
-import com.healthcare.entity.Prescription;
-
 @Entity
 @Table(name = "doctors")
 @Data
