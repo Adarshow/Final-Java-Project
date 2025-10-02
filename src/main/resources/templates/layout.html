@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Healthcare System - <th:block th:include=":: title"></th:block></title>
+    <title>Healthcare System - <th:block th:text="${pageTitle ?: 'Dashboard'}"></th:block></title>
     
     <!-- Bootstrap + Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
 
     <style>
         body {
@@ -137,7 +140,20 @@
                 </div>
 
                 <!-- Page Content -->
-                <div th:replace=":: content"></div>
+                <div th:switch="${contentTemplate}">
+                    <div th:case="'dashboard'" th:include="dashboard"></div>
+                    <div th:case="'appointments/list'" th:include="appointments/list"></div>
+                    <div th:case="'appointments/form'" th:include="appointments/form"></div>
+                    <div th:case="'patients/list'" th:include="patients/list"></div>
+                    <div th:case="'patients/form'" th:include="patients/form"></div>
+                    <div th:case="'doctors/list'" th:include="doctors/list"></div>
+                    <div th:case="'doctors/form'" th:include="doctors/form"></div>
+                    <div th:case="'prescriptions/list'" th:include="prescriptions/list"></div>
+                    <div th:case="'prescriptions/form'" th:include="prescriptions/form"></div>
+                    <div th:case="'billing/list'" th:include="billing/list"></div>
+                    <div th:case="'billing/form'" th:include="billing/form"></div>
+                    <div th:case="*">Content not found</div>
+                </div>
             </div>
         </div>
     </div>

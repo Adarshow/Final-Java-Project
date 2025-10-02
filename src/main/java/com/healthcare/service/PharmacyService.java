@@ -55,4 +55,25 @@ public class PharmacyService {
         }
         return false;
     }
+    
+    // Additional methods for controller compatibility
+    public List<Pharmacy> findAll() {
+        return getAllMedicines();
+    }
+    
+    public Optional<Pharmacy> findById(Long id) {
+        return getMedicineById(id);
+    }
+    
+    public Pharmacy save(Pharmacy medicine) {
+        return saveMedicine(medicine);
+    }
+    
+    public void deleteById(Long id) {
+        deleteMedicine(id);
+    }
+    
+    public List<Pharmacy> findByMedicineNameContaining(String name) {
+        return searchMedicinesByName(name);
+    }
 }

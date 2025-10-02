@@ -8,10 +8,13 @@ C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\repositor
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\repository\PharmacyRepository.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\entity\Prescription.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\config\SecurityConfig.java
+C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\controller\PharmacyController.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\service\AppointmentService.java
+C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\entity\BillingItem.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\service\UserService.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\repository\DoctorRepository.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\repository\PatientRepository.java
+C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\entity\Medication.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\service\PharmacyService.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\entity\Staff.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\service\PatientService.java
@@ -25,9 +28,11 @@ C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\repositor
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\service\DoctorService.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\controller\PrescriptionController.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\HealthcareSystemApplication.java
+C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\repository\BillingItemRepository.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\service\PrescriptionService.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\entity\Appointment.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\entity\Doctor.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\controller\PatientController.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\repository\UserRepository.java
+C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\repository\MedicationRepository.java
 C:\Users\User\Downloads\healthcare-system\src\main\java\com\healthcare\controller\AppointmentController.java

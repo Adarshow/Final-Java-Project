@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare System - Doctors</title>
+    
+    <!-- Bootstrap + Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+
+    <style>
+        body { background-color: #f8f9fc; font-family: "Segoe UI", Roboto, sans-serif; }
+        .navbar { box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .sidebar { min-height: calc(100vh - 56px); background: linear-gradient(180deg, #343a40 0%, #23272b 100%) !important; box-shadow: 3px 0 8px rgba(0,0,0,0.1); }
+        .sidebar .list-group { background: transparent !important; }
+        .sidebar a, .sidebar .list-group-item { color: #ffffff !important; background-color: transparent !important; border: none !important; padding: 12px 18px; font-weight: 500; display: flex; align-items: center; border-left: 4px solid transparent; transition: all 0.3s ease; text-decoration: none; }
+        .sidebar a i { margin-right: 10px; font-size: 1.2rem; }
+        .sidebar a:hover, .sidebar .list-group-item:hover { color: #fff !important; background: rgba(255, 255, 255, 0.1) !important; border-left: 4px solid #0d6efd; }
+        .sidebar a.active, .sidebar .list-group-item.active { background: #0d6efd !important; color: #fff !important; border-left: 4px solid #0b5ed7; }
+        .content { padding: 25px; }
+        .alert { border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        /* Enhanced navbar styling */
+        .navbar-nav .nav-link { color: rgba(255, 255, 255, 0.9) !important; font-weight: 500; padding: 8px 16px !important; border-radius: 6px; transition: all 0.3s ease; }
+        .navbar-nav .nav-link:hover { background: rgba(255, 255, 255, 0.1); color: #ffffff !important; }
+        .navbar-nav .nav-item:last-child .nav-link { background: rgba(220, 53, 69, 0.8); color: #ffffff !important; margin-left: 8px; }
+        .navbar-nav .nav-item:last-child .nav-link:hover { background: #dc3545; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold text-white" href="/" style="color: #ffffff !important;">🏥 Healthcare System</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <span class="nav-link">
+                            <i class="bi bi-person-circle me-2"></i>
+                            <span class="fw-semibold" sec:authentication="name"></span>
+                        </span>
+                    </li>
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" href="/logout">
+                            <i class="bi bi-box-arrow-right me-1"></i> Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar p-0" sec:authorize="isAuthenticated()">
+                <div class="list-group list-group-flush">
+                    <a href="/dashboard" class="list-group-item"><i class="bi bi-speedometer2"></i> Dashboard</a>
+                    <a href="/patients" class="list-group-item"><i class="bi bi-people"></i> Patients</a>
+                    <a href="/doctors" class="list-group-item active"><i class="bi bi-person-badge"></i> Doctors</a>
+                    <a href="/appointments" class="list-group-item"><i class="bi bi-calendar-check"></i> Appointments</a>
+                    <a href="/billing" class="list-group-item"><i class="bi bi-cash-coin"></i> Billing</a>
+                    <a href="/pharmacy" class="list-group-item"><i class="bi bi-capsule"></i> Pharmacy</a>
+                    <a href="/prescriptions" class="list-group-item"><i class="bi bi-file-earmark-text"></i> Prescriptions</a>
+                </div>
+            </div>
+
+            <div class="col-md-10 content">
+                <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i>
+                    <span th:text="${successMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-x-circle me-2"></i>
+                    <span th:text="${errorMessage}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+
+                <div>
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2>Doctors</h2>
+                        <a href="/doctors/new" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-2"></i>Add New Doctor
+                        </a>
+                    </div>
+                    
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-primary">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Name</th>
+                                            <th>Specialization</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
+                                            <th>Experience</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="doctor : ${doctors}">
+                                            <td th:text="${doctor.id}">1</td>
+                                            <td th:text="${doctor.name}">Dr. Smith</td>
+                                            <td th:text="${doctor.specialization}">Cardiology</td>
+                                            <td th:text="${doctor.phone}">123-456-7890</td>
+                                            <td th:text="${doctor.email}">doctor@example.com</td>
+                                            <td><span th:text="${doctor.experience}">5</span> years</td>
+                                            <td>
+                                                <div class="btn-group" role="group">
+                                                    <a th:href="@{/doctors/{id}(id=${doctor.id})}" class="btn btn-sm btn-info text-white">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                    <a th:href="@{/doctors/edit/{id}(id=${doctor.id})}" class="btn btn-sm btn-warning">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                    <a th:href="@{/doctors/delete/{id}(id=${doctor.id})}" class="btn btn-sm btn-danger"
+                                                       onclick="return confirm('Are you sure you want to delete this doctor?')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr th:if="${#lists.isEmpty(doctors)}">
+                                            <td colspan="7" class="text-center">No doctors found</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</body>
+</html>

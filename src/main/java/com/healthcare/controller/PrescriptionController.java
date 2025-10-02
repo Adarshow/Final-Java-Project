@@ -1,6 +1,7 @@
 package com.healthcare.controller;
 
 import com.healthcare.entity.Prescription;
+import com.healthcare.entity.Medication;
 import com.healthcare.service.DoctorService;
 import com.healthcare.service.PatientService;
 import com.healthcare.service.PrescriptionService;
@@ -32,8 +33,8 @@ public class PrescriptionController {
     @GetMapping("/new")
     public String showNewForm(Model model) {
         model.addAttribute("prescription", new Prescription());
-        model.addAttribute("patients", patientService.findAll());
-        model.addAttribute("doctors", doctorService.findAll());
+        model.addAttribute("patients", patientService.getAllPatients());
+        model.addAttribute("doctors", doctorService.getAllDoctors());
         return "prescriptions/form";
     }
 
@@ -42,13 +43,20 @@ public class PrescriptionController {
         Prescription prescription = prescriptionService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid prescription Id:" + id));
         model.addAttribute("prescription", prescription);
-        model.addAttribute("patients", patientService.findAll());
-        model.addAttribute("doctors", doctorService.findAll());
+        model.addAttribute("patients", patientService.getAllPatients());
+        model.addAttribute("doctors", doctorService.getAllDoctors());
         return "prescriptions/form";
     }
 
     @PostMapping("/save")
-    public String savePrescription(@ModelAttribute Prescription prescription, RedirectAttributes redirectAttributes) {
+    public String savePrescription(@ModelAttribute Prescription prescription, 
+                                 @RequestParam Long patientId,
+                                 @RequestParam Long doctorId,
+                                 RedirectAttributes redirectAttributes) {
+        // Set patient and doctor
+        prescription.setPatient(patientService.getPatientById(patientId).orElse(null));
+        prescription.setDoctor(doctorService.getDoctorById(doctorId).orElse(null));
+        
         prescriptionService.save(prescription);
         redirectAttributes.addFlashAttribute("successMessage", "Prescription saved successfully");
         return "redirect:/prescriptions";

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+    <th:block th:fragment="title">Doctor Schedule</th:block>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="bi bi-person-badge me-2"></i>
+                <span th:text="${doctor.name}">Doctor Name</span> - Schedule
+            </h2>
+            <div>
+                <a href="/appointments" class="btn btn-secondary me-2">
+                    <i class="bi bi-arrow-left me-2"></i>Back to Appointments
+                </a>
+                <a href="/doctors" class="btn btn-info">
+                    <i class="bi bi-people me-2"></i>All Doctors
+                </a>
+            </div>
+        </div>
+        
+        <!-- Doctor Info Card -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h5 class="card-title" th:text="${doctor.name}">Dr. John Smith</h5>
+                                <p class="card-text">
+                                    <strong>Specialization:</strong> <span th:text="${doctor.specialization}">Cardiology</span><br>
+                                    <strong>Contact:</strong> <span th:text="${doctor.contact}">+1234567890</span><br>
+                                    <strong>Email:</strong> <span th:text="${doctor.email}">doctor@example.com</span>
+                                </p>
+                            </div>
+                            <div class="col-md-4 text-end">
+                                <span class="badge bg-primary fs-6" th:text="${#lists.size(appointments)} + ' Appointments'">5 Appointments</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Appointments Table -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="bi bi-calendar-week me-2"></i>Scheduled Appointments</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Patient</th>
+                                <th>Contact</th>
+                                <th>Reason</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="appointment : ${appointments}">
+                                <td>
+                                    <strong th:text="${#temporals.format(appointment.dateTime, 'dd-MM-yyyy')}">01-01-2023</strong><br>
+                                    <small class="text-muted" th:text="${#temporals.format(appointment.dateTime, 'HH:mm')}">10:00</small>
+                                </td>
+                                <td th:text="${appointment.patient.name}">John Doe</td>
+                                <td th:text="${appointment.patient.contact}">+1234567890</td>
+                                <td th:text="${appointment.reason ?: 'N/A'}">Regular checkup</td>
+                                <td>
+                                    <span th:class="${'badge ' + (appointment.status == T(com.healthcare.entity.Appointment.AppointmentStatus).SCHEDULED ? 'bg-warning text-dark' : 
+                                                                 appointment.status == T(com.healthcare.entity.Appointment.AppointmentStatus).COMPLETED ? 'bg-success' : 
+                                                                 appointment.status == T(com.healthcare.entity.Appointment.AppointmentStatus).CANCELLED ? 'bg-danger' : 'bg-primary')}"
+                                          th:text="${appointment.status}">Status</span>
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a th:href="@{/appointments/{id}(id=${appointment.id})}" class="btn btn-info" title="View Details">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a th:href="@{/appointments/edit/{id}(id=${appointment.id})}" class="btn btn-warning" title="Edit">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <div class="btn-group btn-group-sm">
+                                            <button type="button" class="btn btn-success dropdown-toggle" data-bs-toggle="dropdown" title="Quick Actions">
+                                                <i class="bi bi-gear"></i>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" th:href="@{/prescriptions/new?appointmentId={id}(id=${appointment.id})}">
+                                                    <i class="bi bi-file-earmark-plus me-2"></i>Add Prescription</a></li>
+                                                <li><a class="dropdown-item" th:href="@{/billing/new?appointmentId={id}(id=${appointment.id})}">
+                                                    <i class="bi bi-receipt me-2"></i>Create Bill</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="${#lists.isEmpty(appointments)}">
+                                <td colspan="6" class="text-center text-muted py-4">
+                                    <i class="bi bi-calendar-x display-6 d-block mb-2"></i>
+                                    No appointments scheduled for this doctor
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Quick Stats -->
+        <div class="row mt-4" th:if="${!#lists.isEmpty(appointments)}">
+            <div class="col-md-3">
+                <div class="card text-center bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title text-warning" th:text="${#lists.size(appointments.?[status == T(com.healthcare.entity.Appointment.AppointmentStatus).SCHEDULED])}">0</h5>
+                        <p class="card-text">Scheduled</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title text-success" th:text="${#lists.size(appointments.?[status == T(com.healthcare.entity.Appointment.AppointmentStatus).COMPLETED])}">0</h5>
+                        <p class="card-text">Completed</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger" th:text="${#lists.size(appointments.?[status == T(com.healthcare.entity.Appointment.AppointmentStatus).CANCELLED])}">0</h5>
+                        <p class="card-text">Cancelled</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary" th:text="${#lists.size(appointments)}">0</h5>
+                        <p class="card-text">Total</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

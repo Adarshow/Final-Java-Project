@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.healthcare.entity.Appointment;
+import com.healthcare.entity.Prescription;
+
 @Entity
 @Table(name = "doctors")
 @Data
@@ -21,9 +24,9 @@ public class Doctor {
     
     private String name;
     private String specialization;
-    private String contact;
-    private String schedule;
-    private String role;
+    private String phone;
+    private String email;
+    private Integer experience;
     
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     private List<Appointment> appointments = new ArrayList<>();
@@ -40,11 +43,15 @@ public class Doctor {
         this.specialization = specialization;
     }
     
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
     
-    public void setSchedule(String schedule) {
-        this.schedule = schedule;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public void setExperience(Integer experience) {
+        this.experience = experience;
     }
 }

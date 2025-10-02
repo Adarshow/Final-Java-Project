@@ -56,17 +56,16 @@ public class BillingService {
         Billing billing = new Billing();
         billing.setAppointment(appointment);
         billing.setPatient(appointment.getPatient());
-        billing.setAmount(amount);
+        billing.setTotalAmount(amount);
         billing.setStatus(Billing.BillingStatus.PENDING);
         return billingRepository.save(billing);
     }
     
-    public Billing updatePaymentStatus(Long id, Billing.BillingStatus status, String paymentMode) {
+    public Billing updatePaymentStatus(Long id, Billing.BillingStatus status) {
         Optional<Billing> billingOpt = billingRepository.findById(id);
         if (billingOpt.isPresent()) {
             Billing billing = billingOpt.get();
             billing.setStatus(status);
-            billing.setPaymentMode(paymentMode);
             return billingRepository.save(billing);
         }
         return null;

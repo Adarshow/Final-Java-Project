@@ -35,11 +35,15 @@ public class HomeController {
     
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
+        System.out.println("DEBUG: Dashboard method called");
+        model.addAttribute("pageTitle", "Dashboard");
+        model.addAttribute("contentTemplate", "dashboard");
         model.addAttribute("patientCount", patientService.getAllPatients().size());
         model.addAttribute("doctorCount", doctorService.getAllDoctors().size());
         model.addAttribute("appointmentCount", appointmentService.getAllAppointments().size());
         model.addAttribute("recentAppointments", appointmentService.getAllAppointments().subList(0, 
             Math.min(5, appointmentService.getAllAppointments().size())));
+        System.out.println("DEBUG: Returning layout template");
         return "dashboard";
     }
 }

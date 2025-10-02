@@ -1,6 +1,7 @@
 package com.healthcare.controller;
 
 import com.healthcare.entity.Billing;
+import com.healthcare.entity.BillingItem;
 import com.healthcare.service.BillingService;
 import com.healthcare.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class BillingController {
     @GetMapping("/new")
     public String showNewForm(Model model) {
         model.addAttribute("invoice", new Billing());
-        model.addAttribute("patients", patientService.findAll());
+        model.addAttribute("patients", patientService.getAllPatients());
         return "billing/form";
     }
 
@@ -37,12 +38,17 @@ public class BillingController {
         Billing invoice = billingService.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid invoice Id:" + id));
         model.addAttribute("invoice", invoice);
-        model.addAttribute("patients", patientService.findAll());
+        model.addAttribute("patients", patientService.getAllPatients());
         return "billing/form";
     }
 
     @PostMapping("/save")
-    public String saveInvoice(@ModelAttribute Billing invoice, RedirectAttributes redirectAttributes) {
+    public String saveInvoice(@ModelAttribute Billing invoice, 
+                             @RequestParam Long patientId,
+                             RedirectAttributes redirectAttributes) {
+        // Set patient
+        invoice.setPatient(patientService.getPatientById(patientId).orElse(null));
+        
         billingService.save(invoice);
         redirectAttributes.addFlashAttribute("successMessage", "Invoice saved successfully");
         return "redirect:/billing";

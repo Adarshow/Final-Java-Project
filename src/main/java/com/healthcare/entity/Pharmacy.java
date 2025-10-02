@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "pharmacy")
@@ -24,7 +22,4 @@ public class Pharmacy {
     private Integer stock;
     private LocalDate expiryDate;
     private Double price;
-    
-    @OneToMany(mappedBy = "medicine", cascade = CascadeType.ALL)
-    private List<Prescription> prescriptions = new ArrayList<>();
 }

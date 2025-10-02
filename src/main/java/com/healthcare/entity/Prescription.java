@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "prescriptions")
@@ -25,11 +28,11 @@ public class Prescription {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
     
-    @ManyToOne
-    @JoinColumn(name = "medicine_id")
-    private Pharmacy medicine;
+    private LocalDate date;
+    private String diagnosis;
     
-    private String dosage;
+    @OneToMany(mappedBy = "prescription", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Medication> medications = new ArrayList<>();
     
     @Column(length = 500)
     private String notes;

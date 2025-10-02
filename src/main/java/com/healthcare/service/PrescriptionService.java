@@ -2,7 +2,6 @@ package com.healthcare.service;
 
 import com.healthcare.entity.Doctor;
 import com.healthcare.entity.Patient;
-import com.healthcare.entity.Pharmacy;
 import com.healthcare.entity.Prescription;
 import com.healthcare.repository.PrescriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,6 @@ public class PrescriptionService {
 
     @Autowired
     private PrescriptionRepository prescriptionRepository;
-    
-    @Autowired
-    private PharmacyService pharmacyService;
     
     public List<Prescription> getAllPrescriptions() {
         return prescriptionRepository.findAll();
@@ -56,12 +52,11 @@ public class PrescriptionService {
         return prescriptionRepository.findByDoctor(doctor);
     }
     
-    public Prescription createPrescription(Patient patient, Doctor doctor, Pharmacy medicine, String dosage, String notes) {
+    public Prescription createPrescription(Patient patient, Doctor doctor, String diagnosis, String notes) {
         Prescription prescription = new Prescription();
         prescription.setPatient(patient);
         prescription.setDoctor(doctor);
-        prescription.setMedicine(medicine);
-        prescription.setDosage(dosage);
+        prescription.setDiagnosis(diagnosis);
         prescription.setNotes(notes);
         return prescriptionRepository.save(prescription);
     }

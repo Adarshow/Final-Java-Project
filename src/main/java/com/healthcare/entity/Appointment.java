@@ -28,8 +28,11 @@ public class Appointment {
     
     private LocalDateTime dateTime;
     
+    @Column(length = 500)
+    private String reason;
+    
     @Enumerated(EnumType.STRING)
-    private AppointmentStatus status;
+    private AppointmentStatus status = AppointmentStatus.SCHEDULED;
     
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL)
     private Billing billing;

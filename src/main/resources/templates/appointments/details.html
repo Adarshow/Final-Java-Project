@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout :: layout(~{::title}, ~{::content})}">
+<head>
+    <th:block th:fragment="title">Appointment Details</th:block>
+</head>
+<body>
+    <div th:fragment="content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Appointment Details</h2>
+            <div>
+                <a href="/appointments" class="btn btn-secondary me-2">
+                    <i class="bi bi-arrow-left me-2"></i>Back to List
+                </a>
+                <a th:href="@{/appointments/edit/{id}(id=${appointment.id})}" class="btn btn-warning">
+                    <i class="bi bi-pencil me-2"></i>Edit
+                </a>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0"><i class="bi bi-calendar-check me-2"></i>Appointment Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-3"><strong>Appointment ID:</strong></div>
+                            <div class="col-sm-9" th:text="${appointment.id}">1</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3"><strong>Patient:</strong></div>
+                            <div class="col-sm-9" th:text="${appointment.patient.name}">John Doe</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3"><strong>Doctor:</strong></div>
+                            <div class="col-sm-9">
+                                <span th:text="${appointment.doctor.name}">Dr. Smith</span>
+                                <small class="text-muted" th:text="'(' + ${appointment.doctor.specialization} + ')'"></small>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3"><strong>Date & Time:</strong></div>
+                            <div class="col-sm-9" th:text="${#temporals.format(appointment.dateTime, 'EEEE, dd MMMM yyyy HH:mm')}">Monday, 01 January 2023 10:00</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-3"><strong>Status:</strong></div>
+                            <div class="col-sm-9">
+                                <span th:class="${'badge fs-6 ' + (appointment.status == T(com.healthcare.entity.Appointment.AppointmentStatus).SCHEDULED ? 'bg-warning text-dark' : 
+                                                             appointment.status == T(com.healthcare.entity.Appointment.AppointmentStatus).COMPLETED ? 'bg-success' : 
+                                                             appointment.status == T(com.healthcare.entity.Appointment.AppointmentStatus).CANCELLED ? 'bg-danger' : 'bg-primary')}"
+                                      th:text="${appointment.status}">Status</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3" th:if="${appointment.reason}">
+                            <div class="col-sm-3"><strong>Reason:</strong></div>
+                            <div class="col-sm-9" th:text="${appointment.reason}">Regular checkup</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h6 class="mb-0"><i class="bi bi-gear me-2"></i>Actions</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <form th:action="@{/appointments/{id}/status(id=${appointment.id})}" method="post" class="mb-2">
+                                <div class="input-group">
+                                    <select name="status" class="form-select form-select-sm">
+                                        <option th:each="status : ${T(com.healthcare.entity.Appointment.AppointmentStatus).values()}" 
+                                                th:value="${status}" 
+                                                th:text="${status}"
+                                                th:selected="${status == appointment.status}"></option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary btn-sm">Update</button>
+                                </div>
+                            </form>
+                            
+                            <a th:href="@{/prescriptions/new?appointmentId={id}(id=${appointment.id})}" class="btn btn-success btn-sm">
+                                <i class="bi bi-file-earmark-plus me-1"></i>Add Prescription
+                            </a>
+                            
+                            <a th:href="@{/billing/new?appointmentId={id}(id=${appointment.id})}" class="btn btn-warning btn-sm">
+                                <i class="bi bi-receipt me-1"></i>Create Bill
+                            </a>
+                            
+                            <a th:href="@{/appointments/delete/{id}(id=${appointment.id})}" 
+                               class="btn btn-danger btn-sm"
+                               onclick="return confirm('Are you sure you want to delete this appointment?')">
+                                <i class="bi bi-trash me-1"></i>Delete
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

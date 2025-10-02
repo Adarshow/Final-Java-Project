@@ -64,22 +64,25 @@ public class DataInitializer implements CommandLineRunner {
             Doctor doctor1 = new Doctor();
             doctor1.setName("Dr. John Smith");
             doctor1.setSpecialization("Cardiology");
-            doctor1.setContact("555-123-4567");
-            doctor1.setSchedule("Mon-Fri, 9AM-5PM");
+            doctor1.setPhone("555-123-4567");
+            doctor1.setEmail("john.smith@hospital.com");
+            doctor1.setExperience(15);
             doctorRepository.save(doctor1);
             
             Doctor doctor2 = new Doctor();
             doctor2.setName("Dr. Sarah Johnson");
             doctor2.setSpecialization("Pediatrics");
-            doctor2.setContact("555-987-6543");
-            doctor2.setSchedule("Mon-Wed, 8AM-4PM");
+            doctor2.setPhone("555-987-6543");
+            doctor2.setEmail("sarah.johnson@hospital.com");
+            doctor2.setExperience(8);
             doctorRepository.save(doctor2);
             
             Doctor doctor3 = new Doctor();
             doctor3.setName("Dr. Michael Chen");
             doctor3.setSpecialization("Neurology");
-            doctor3.setContact("555-456-7890");
-            doctor3.setSchedule("Tue-Fri, 10AM-6PM");
+            doctor3.setPhone("555-456-7890");
+            doctor3.setEmail("michael.chen@hospital.com");
+            doctor3.setExperience(12);
             doctorRepository.save(doctor3);
         }
         
