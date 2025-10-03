@@ -66,4 +66,14 @@ Once the application is running, open your web browser and navigate to `http://l
 
 *   **Signup**: New users can register for an account.
 *   **Login**: Existing users can log in with their credentials.
+*   **Default Credentials**:
+    ADMIN:
+    (Username = admin,
+    Password = admin)
+    DOCTOR:
+    (Username = doctor,
+    Password = doctor)
+    STAFF:
+    (Username = staff,
+    Password = staff)
 *   **Dashboard**: After logging in, users will be redirected to a dashboard where they can access different modules based on their roles.
