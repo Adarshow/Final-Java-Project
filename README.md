@@ -69,7 +69,7 @@ Once the application is running, open your web browser and navigate to `http://l
 *   **Default Credentials**:
     ADMIN:
     (Username = admin,
-    Password = admin)
+    Password = admin1)
     DOCTOR:
     (Username = doctor,
     Password = doctor)
